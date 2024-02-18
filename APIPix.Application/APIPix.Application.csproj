@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\APIPix.CrossCutting\APIPix.CrossCutting.csproj" />
+    <ProjectReference Include="..\APIPix.Data\APIPix.Data.csproj" />
+    <ProjectReference Include="..\APIPix.Domain\APIPix.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

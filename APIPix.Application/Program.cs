@@ -1,3 +1,9 @@
+using APIPix.CrossCutting.DependencyInjection;
+using APIPix.Data.Context;
+using APIPix.Data.Repository;
+using APIPix.Domain.Interfaces;
+using Microsoft.SqlServer.Management.Common;
+using System.Text.Json.Serialization;
 
 namespace APIPix.Application
 {
@@ -7,16 +13,19 @@ namespace APIPix.Application
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Configura a injeção de dependência
+            ConfigureRepository.ConfiguracaoDependenciaRepository(builder.Services);
 
+            // Adiciona serviços ao contêiner.
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            // Aprenda mais sobre como configurar o Swagger/OpenAPI em https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configura o pipeline de solicitação HTTP.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -24,10 +33,7 @@ namespace APIPix.Application
             }
 
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }

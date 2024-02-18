@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIPix.Domain.Entities
 {
-    public class DestinoPagamento: BaseEntity
+    public class DestinoPagamento : BaseEntity
     {
         public ChavePix Chave { get; set; }
         public string Name { get; set; }

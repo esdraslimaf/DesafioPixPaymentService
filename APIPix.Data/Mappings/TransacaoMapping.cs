@@ -15,8 +15,11 @@ namespace APIPix.Data.Mappings
         {
             builder.HasKey(t => t.Id);
 
-            builder.HasOne(t => t.OrigemPagamento).WithMany(t => t.Transacoes).IsRequired();
-            builder.HasOne(t => t.DestinoPagamento).WithMany(t => t.Transacoes).IsRequired();
+            builder.HasOne(t => t.OrigemPagamento)
+                   .WithMany(o => o.Transacoes).HasForeignKey(t => t.OrigemPagamentoId);
+
+            builder.HasOne(t => t.DestinoPagamento)
+                   .WithMany(d => d.Transacoes).HasForeignKey(t => t.DestinoPagamentoId);
 
         }
     }

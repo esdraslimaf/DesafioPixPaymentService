@@ -16,10 +16,10 @@ namespace APIPix.Data.Context
 
         }
 
-        DbSet<ChavePix> Chaves { get; set; }
-        DbSet<DestinoPagamento> DestinosPagamentos { get; set; }
-        DbSet<OrigemPagamento> OrigensPagamentos { get;set; }
-        DbSet<Transacao> Transacoes { get; set; }
+        public DbSet<ChavePix> Chaves { get; set; }
+        public DbSet<DestinoPagamento> DestinosPagamentos { get; set; }
+        public DbSet<OrigemPagamento> OrigensPagamentos { get;set; }
+        public DbSet<Transacao> Transacoes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
