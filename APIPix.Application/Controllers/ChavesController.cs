@@ -20,5 +20,28 @@ namespace APIPix.Application.Controllers
         {
             return Ok(await _service.AddChave(chave));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _service.GetAllChaves());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            return Ok(await _service.GetChavesById(id));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateChaves(ChavePix chavePix)
+        {
+            return Ok(await _service.UpdateChaves(chavePix));
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            return Ok(await _service.DeleteChaves(id));
+        }
     }
 }

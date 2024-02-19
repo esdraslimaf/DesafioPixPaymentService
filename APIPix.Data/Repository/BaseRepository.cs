@@ -23,19 +23,40 @@ namespace APIPix.Data.Repository
         }
 
 
-        public async Task<T> Add(T Entity)
+        public async Task<T> Add(T entity)
         {
-            try
+            _dbset.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            var entity = await _dbset.FindAsync(id);
+            if (entity != null)
             {
-                _dbset.Add(Entity);
+                _dbset.Remove(entity);
                 await _context.SaveChangesAsync();
-                
+                return true;
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            return Entity;
+            return false;
+        }
+
+        public async Task<ICollection<T>> GetAll()
+        {
+            return await _dbset.ToListAsync();
+        }
+
+        public async Task<T> GetById(Guid id)
+        {
+            return await _dbset.FindAsync(id);
+        }
+
+        public async Task<T> Update(T entity)
+        {      
+            _dbset.Update(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }

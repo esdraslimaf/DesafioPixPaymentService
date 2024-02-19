@@ -19,7 +19,6 @@ namespace APIPix.CrossCutting.DependencyInjection
         {
             var stringConnection = "server=.\\SQLEXPRESS2017;Initial Catalog=ApiPixDDD;MultipleActiveResultSets=true;TrustServerCertificate=True;User ID=sa;Password=admin123;";
             serviceCollection.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            serviceCollection.AddTransient<IChaveService, ChaveService>();
             serviceCollection.AddDbContext<MyContext>(options => options.UseSqlServer(stringConnection));
         }
     }

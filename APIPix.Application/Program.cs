@@ -15,6 +15,7 @@ namespace APIPix.Application
 
             // Configura a injeção de dependência
             ConfigureRepository.ConfiguracaoDependenciaRepository(builder.Services);
+            ConfigureService.ConfiguracaoDependenciaService(builder.Services);
 
             // Adiciona serviços ao contêiner.
             builder.Services.AddControllers();

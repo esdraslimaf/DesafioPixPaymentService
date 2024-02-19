@@ -10,5 +10,9 @@ namespace APIPix.Domain.Interfaces.Services
     public interface IChaveService
     {
         Task<ChavePix> AddChave(ChavePix chavePix);
+        Task<ICollection<ChavePix>> GetAllChaves();
+        Task<ChavePix> GetChavesById(Guid id);
+        Task<ChavePix> UpdateChaves(ChavePix chavePix);
+        Task<bool> DeleteChaves(Guid id);
     }
 }
