@@ -8,8 +8,10 @@ namespace APIPix.Domain.Entities
 {
     public class DestinoPagamento : BaseEntity
     {
-        public ChavePix Chave { get; set; }
         public string Name { get; set; }
-        public ICollection<Transacao> Transacoes { get; set; }
+        public Guid ChavePixId { get; set; }
+        public ChavePix? ChavePix { get; set; }
+        public ICollection<Transacao>? Transacoes { get; set; }
+        public double Quantia { get; set; }
     }
 }

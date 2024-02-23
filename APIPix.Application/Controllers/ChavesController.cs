@@ -1,7 +1,12 @@
 ﻿using APIPix.Data.Context;
+using APIPix.Domain.Dtos.ChavePix;
 using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
 
 namespace APIPix.Application.Controllers
 {
@@ -9,16 +14,36 @@ namespace APIPix.Application.Controllers
     [Route("[controller]")]
     public class ChavesController:ControllerBase
     {
-        private readonly IChaveService _service;
-        public ChavesController(IChaveService service)
+         private readonly IChaveService _service;
+
+        private readonly MyContext _context;
+      
+
+        public ChavesController(MyContext context, IChaveService service)
         {
+            _context = context;
             _service = service;
+          
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ChavePix chave)
+        public async Task<IActionResult> Post([FromBody] ChavePixDtoCreate dtoChavePixCreate)
         {
-            return Ok(await _service.AddChave(chave));
+            if (!ModelState.IsValid)
+            {
+                BadRequest(ModelState);
+            }
+
+            try
+            {              
+                return Ok(await _service.AddChave(dtoChavePixCreate));
+            }
+            catch (Exception erro)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, erro.Message);
+            }
+          
+            
         }
 
         [HttpGet]
@@ -34,9 +59,9 @@ namespace APIPix.Application.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateChaves(ChavePix chavePix)
+        public async Task<IActionResult> UpdateChaves(ChavePixDtoUpdate chavePixDtoUpdate)
         {
-            return Ok(await _service.UpdateChaves(chavePix));
+            return Ok(await _service.UpdateChaves(chavePixDtoUpdate));
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)

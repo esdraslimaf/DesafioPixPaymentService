@@ -14,7 +14,12 @@ namespace APIPix.Data.Mappings
         public void Configure(EntityTypeBuilder<OrigemPagamento> builder)
         {
             builder.HasKey(p => p.Id);
-           
+
+            builder.HasOne(o => o.ChavePix)
+            .WithOne(cp=>cp.Pagador)
+            .HasForeignKey<OrigemPagamento>(o => o.ChavePixId);
+
+
         }
     }
 }

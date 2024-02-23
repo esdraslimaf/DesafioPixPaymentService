@@ -53,7 +53,7 @@ namespace APIPix.Data.Repository
         }
 
         public async Task<T> Update(T entity)
-        {      
+        {
             _dbset.Update(entity);
             await _context.SaveChangesAsync();
             return entity;

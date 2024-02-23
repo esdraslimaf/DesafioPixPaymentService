@@ -10,9 +10,10 @@ namespace APIPix.Domain.Entities
     {
         public DateTime Horario { get; set; }
         public OrigemPagamento? OrigemPagamento { get; set; }
-        public Guid? OrigemPagamentoId { get; set; }
+        public Guid OrigemPagamentoId { get; set; }
         public DestinoPagamento? DestinoPagamento { get; set; }
-        public Guid? DestinoPagamentoId { get; set; }
+        public Guid DestinoPagamentoId { get; set; }
+        public double Valor { get; set; }
 
     }
 }

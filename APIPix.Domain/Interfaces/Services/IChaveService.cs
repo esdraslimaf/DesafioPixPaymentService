@@ -1,4 +1,5 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.ChavePix;
+using APIPix.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace APIPix.Domain.Interfaces.Services
 {
     public interface IChaveService
     {
-        Task<ChavePix> AddChave(ChavePix chavePix);
-        Task<ICollection<ChavePix>> GetAllChaves();
-        Task<ChavePix> GetChavesById(Guid id);
-        Task<ChavePix> UpdateChaves(ChavePix chavePix);
+        Task<ChavePix> AddChave(ChavePixDtoCreate dtoChavePixCreate);
+        Task<ICollection<ChavePixDtoResult>> GetAllChaves();
+        Task<ChavePixDtoResult> GetChavesById(Guid id);
+        Task<ChavePixDtoUpdate> UpdateChaves(ChavePixDtoUpdate chavePix);
         Task<bool> DeleteChaves(Guid id);
     }
 }
