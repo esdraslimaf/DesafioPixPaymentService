@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace APIPix.Service.Services
 {
-    public class DestigoPagamentoService : IDestinoPagamentoService
+    public class BeneficiarioService : IBeneficiarioService
     {
-        private readonly IBaseRepository<DestinoPagamento> _repository;
-        public DestigoPagamentoService(IBaseRepository<DestinoPagamento> repository)
+        private readonly IBaseRepository<Beneficiario> _repository;
+        public BeneficiarioService(IBaseRepository<Beneficiario> repository)
         {
             _repository = repository;
         }
 
-        public async Task<DestinoPagamento> AddDestinoPagamento(DestinoPagamento destinoPagamento)
+        public async Task<Beneficiario> AddDestinoPagamento(Beneficiario destinoPagamento)
         {
             if (destinoPagamento.Id == Guid.Empty)
             {
@@ -45,7 +45,7 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<ICollection<DestinoPagamento>> GetAllDestinosPagamentos()
+        public async Task<ICollection<Beneficiario>> GetAllDestinosPagamentos()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<DestinoPagamento> GetDestinoPagamentoById(Guid id)
+        public async Task<Beneficiario> GetDestinoPagamentoById(Guid id)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<DestinoPagamento> UpdateDestinoPagamento(DestinoPagamento destinoPagamento)
+        public async Task<Beneficiario> UpdateDestinoPagamento(Beneficiario destinoPagamento)
         {
             var existingEntity = await _repository.GetById(destinoPagamento.Id);
 

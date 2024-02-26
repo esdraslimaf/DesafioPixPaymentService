@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace APIPix.Data.Mappings
 {
-    public class DestinoPagamentoMapping : IEntityTypeConfiguration<DestinoPagamento>
+    public class DestinoPagamentoMapping : IEntityTypeConfiguration<Beneficiario>
     {
-        public void Configure(EntityTypeBuilder<DestinoPagamento> builder)
+        public void Configure(EntityTypeBuilder<Beneficiario> builder)
         {
             builder.HasOne(o => o.ChavePix)
            .WithOne(cp=>cp.Recebedor)
-           .HasForeignKey<DestinoPagamento>(c=>c.ChavePixId);
+           .HasForeignKey<Beneficiario>(c=>c.ChavePixId);
 
 
         }

@@ -9,6 +9,6 @@ namespace APIPix.Domain.Entities
     {
         public EnumTipoChavePix TipoChavePix { get; set; }
         public Pagador? Pagador { get; set; }
-        public DestinoPagamento? Recebedor { get; set; } 
+        public Beneficiario? Recebedor { get; set; } 
     }
 }

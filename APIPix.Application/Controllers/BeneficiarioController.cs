@@ -8,17 +8,17 @@ namespace APIPix.Application.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RecebedorController : ControllerBase
+    public class BeneficiarioController : ControllerBase
     {
-        private readonly IDestinoPagamentoService _service;
+        private readonly IBeneficiarioService _service;
 
-        public RecebedorController(IDestinoPagamentoService service)
+        public BeneficiarioController(IBeneficiarioService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] DestinoPagamento recebedor)
+        public async Task<IActionResult> Post([FromBody] Beneficiario recebedor)
         {
             return Ok(await _service.AddDestinoPagamento(recebedor));
         }
@@ -42,7 +42,7 @@ namespace APIPix.Application.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateRecebedor(DestinoPagamento recebedor)
+        public async Task<IActionResult> UpdateRecebedor(Beneficiario recebedor)
         {
             return Ok(await _service.UpdateDestinoPagamento(recebedor));
         }

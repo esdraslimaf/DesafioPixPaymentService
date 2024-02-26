@@ -13,11 +13,11 @@ namespace APIPix.Service.Services
     public class TransacaoService : ITransacaoService
     {
         private readonly IBaseRepository<Transacao> _repository;
-        private readonly IDestinoPagamentoService _destinoPagamentoService;
+        private readonly IBeneficiarioService _destinoPagamentoService;
         private readonly IPagadorService _origemPagamentoService;
         private readonly IMapper _mapper;
 
-        public TransacaoService(IBaseRepository<Transacao> repository, IDestinoPagamentoService destinoPagamentoService, IPagadorService origemPagamentoService, IMapper mapper)
+        public TransacaoService(IBaseRepository<Transacao> repository, IBeneficiarioService destinoPagamentoService, IPagadorService origemPagamentoService, IMapper mapper)
         {
             _repository = repository;
             _destinoPagamentoService = destinoPagamentoService;
