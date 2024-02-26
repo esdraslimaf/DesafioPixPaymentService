@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace APIPix.Domain.Interfaces.Services
 {
-    public interface IOrigemPagamentoService
+    public interface IPagadorService
     {
-        Task<OrigemPagamento> AddOrigemPagamento(PagadorDtoCreate origemPagamento);
+        Task<Pagador> AddOrigemPagamento(PagadorDtoCreate origemPagamento);
         Task<bool> DeleteOrigemPagamento(Guid id);
         Task<ICollection<PagadorDtoResult>> GetAllOrigensPagamentos();
         Task<PagadorDtoResult> GetOrigemPagamentoById(Guid id);
-        Task<OrigemPagamento> UpdateOrigemPagamento(PagadorDtoUpdate PagadorDtoUpdate);
+        Task<Pagador> UpdateOrigemPagamento(PagadorDtoUpdate PagadorDtoUpdate);
     }
 }

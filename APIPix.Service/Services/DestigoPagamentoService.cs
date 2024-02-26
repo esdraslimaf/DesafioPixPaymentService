@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace APIPix.Service.Services
 {
-    public class DestinoPagamentoService : IDestinoPagamentoService
+    public class DestigoPagamentoService : IDestinoPagamentoService
     {
         private readonly IBaseRepository<DestinoPagamento> _repository;
-        public DestinoPagamentoService(IBaseRepository<DestinoPagamento> repository)
+        public DestigoPagamentoService(IBaseRepository<DestinoPagamento> repository)
         {
             _repository = repository;
         }

@@ -14,10 +14,10 @@ namespace APIPix.Service.Services
     {
         private readonly IBaseRepository<Transacao> _repository;
         private readonly IDestinoPagamentoService _destinoPagamentoService;
-        private readonly IOrigemPagamentoService _origemPagamentoService;
+        private readonly IPagadorService _origemPagamentoService;
         private readonly IMapper _mapper;
 
-        public TransacaoService(IBaseRepository<Transacao> repository, IDestinoPagamentoService destinoPagamentoService, IOrigemPagamentoService origemPagamentoService, IMapper mapper)
+        public TransacaoService(IBaseRepository<Transacao> repository, IDestinoPagamentoService destinoPagamentoService, IPagadorService origemPagamentoService, IMapper mapper)
         {
             _repository = repository;
             _destinoPagamentoService = destinoPagamentoService;
@@ -33,7 +33,7 @@ namespace APIPix.Service.Services
             }
             try
             {
-                var origem = _mapper.Map<OrigemPagamento>(await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId));               
+                var origem = _mapper.Map<Pagador>(await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId));               
                 var destino = await _destinoPagamentoService.GetDestinoPagamentoById(transacao.DestinoPagamentoId);
 
 

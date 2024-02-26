@@ -8,7 +8,7 @@ namespace APIPix.Domain.Entities
     public class ChavePix: BaseEntity
     {
         public EnumTipoChavePix TipoChavePix { get; set; }
-        public OrigemPagamento? Pagador { get; set; }
+        public Pagador? Pagador { get; set; }
         public DestinoPagamento? Recebedor { get; set; } 
     }
 }

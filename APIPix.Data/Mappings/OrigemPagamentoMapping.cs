@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace APIPix.Data.Mappings
 {
-    public class OrigemPagamentoMapping : IEntityTypeConfiguration<OrigemPagamento>
+    public class OrigemPagamentoMapping : IEntityTypeConfiguration<Pagador>
     {
-        public void Configure(EntityTypeBuilder<OrigemPagamento> builder)
+        public void Configure(EntityTypeBuilder<Pagador> builder)
         {
             builder.HasKey(p => p.Id);
 
             builder.HasOne(o => o.ChavePix)
             .WithOne(cp=>cp.Pagador)
-            .HasForeignKey<OrigemPagamento>(o => o.ChavePixId);
+            .HasForeignKey<Pagador>(o => o.ChavePixId);
 
 
         }

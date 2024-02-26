@@ -11,8 +11,8 @@ namespace APIPix.Application.Controllers
     [Route("[controller]")]
     public class PagadorController : ControllerBase
     {
-        private readonly IOrigemPagamentoService _service;
-        public PagadorController(IOrigemPagamentoService service)
+        private readonly IPagadorService _service;
+        public PagadorController(IPagadorService service)
         {
             _service = service;
         }

@@ -20,9 +20,9 @@ namespace APIPix.CrossCutting.AutoMapper
             CreateMap<ChavePix, ChavePixDtoUpdate>().ReverseMap();
             
             //Pagador
-            CreateMap<OrigemPagamento, PagadorDtoCreate>().ReverseMap();
-            CreateMap<OrigemPagamento, PagadorDtoResult>().ReverseMap();
-            CreateMap<OrigemPagamento, PagadorDtoUpdate>().ReverseMap();
+            CreateMap<Pagador, PagadorDtoCreate>().ReverseMap();
+            CreateMap<Pagador, PagadorDtoResult>().ReverseMap();
+            CreateMap<Pagador, PagadorDtoUpdate>().ReverseMap();
         }
 
     }

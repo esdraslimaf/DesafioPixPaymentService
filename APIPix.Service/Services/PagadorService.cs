@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 
 namespace APIPix.Service.Services
 {
-    public class OrigemPagamentoService : IOrigemPagamentoService
+    public class PagadorService : IPagadorService
     {
-        private readonly IBaseRepository<OrigemPagamento> _repository;
+        private readonly IBaseRepository<Pagador> _repository;
         private readonly IMapper _mapper;
-        public OrigemPagamentoService(IBaseRepository<OrigemPagamento> repository, IMapper mapper)
+        public PagadorService(IBaseRepository<Pagador> repository, IMapper mapper)
         {
               _repository = repository;
             _mapper = mapper;
         }
 
 
-        public async Task<OrigemPagamento> AddOrigemPagamento(PagadorDtoCreate pagadorDtoCreate)          
+        public async Task<Pagador> AddOrigemPagamento(PagadorDtoCreate pagadorDtoCreate)          
         {
-            var origemPagamento = _mapper.Map<OrigemPagamento>(pagadorDtoCreate);
+            var origemPagamento = _mapper.Map<Pagador>(pagadorDtoCreate);
 
             if (origemPagamento.Id == Guid.Empty) { origemPagamento.Id = Guid.NewGuid(); }
             try
@@ -75,7 +75,7 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<OrigemPagamento> UpdateOrigemPagamento(PagadorDtoUpdate PagadorDtoUpdate)
+        public async Task<Pagador> UpdateOrigemPagamento(PagadorDtoUpdate PagadorDtoUpdate)
         {
 
             var existingEntity = await _repository.GetById(PagadorDtoUpdate.Id);
