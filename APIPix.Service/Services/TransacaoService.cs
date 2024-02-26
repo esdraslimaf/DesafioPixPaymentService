@@ -1,5 +1,6 @@
 ﻿using APIPix.Domain.Dtos.Beneficiario;
 using APIPix.Domain.Dtos.Pagador;
+using APIPix.Domain.Dtos.Transacao;
 using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
 using APIPix.Domain.Interfaces.Services;
@@ -26,30 +27,38 @@ namespace APIPix.Service.Services
             _mapper = mapper;
         }
 
-        public async Task<Transacao> AddTransacao(Transacao transacao)
+        public async Task<TransacaoDtoResult> AddTransacao(TransacaoDtoCreate transacaoDtoCreate)
         {
+            Transacao transacao = _mapper.Map<Transacao>(transacaoDtoCreate);
+
             if (transacao.Id == Guid.Empty)
             {
                 transacao.Id = Guid.NewGuid();
             }
             try
             {
-                var origem = _mapper.Map<Pagador>(await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId));               
-                var destino = await _destinoPagamentoService.GetBeneficiarioById(transacao.DestinoPagamentoId);
+                transacao.Horario = DateTime.UtcNow;
+
+                // Obtém o pagador e atualiza sua quantia subtraindo o valor da transação.
+                var pagador = await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId);
+                pagador.Quantia -= transacao.Valor;
+                var entidadePagador = _mapper.Map<Pagador>(pagador);
+
+                // Obtém o beneficiário e atualiza sua quantia adicionando o valor da transação.
+                var beneficiario = await _destinoPagamentoService.GetBeneficiarioById(transacao.DestinoPagamentoId);
+                beneficiario.Quantia += transacao.Valor;
+                var entidadeBeneficiario = _mapper.Map<Beneficiario>(beneficiario);
+
+                // Atualiza as informações do pagador e beneficiário nos respectivos serviços.
+                await _origemPagamentoService.UpdateOrigemPagamento(_mapper.Map<PagadorDtoUpdate>(entidadePagador));
+                await _destinoPagamentoService.UpdateBeneficiario(_mapper.Map<BeneficiarioDtoUpdate>(entidadeBeneficiario));
 
 
+                //Adiciona a transação no banco de dados
+                var result = await _repository.Add(transacao);
 
-                origem.Quantia -= transacao.Valor;
-                destino.Quantia += transacao.Valor;
-
-                
-
-                _origemPagamentoService.UpdateOrigemPagamento(_mapper.Map<PagadorDtoUpdate>(origem));
-
-
-                _destinoPagamentoService.UpdateBeneficiario(_mapper.Map<BeneficiarioDtoUpdate>(destino));
-
-                return await _repository.Add(transacao);
+                //Retorna um TransacaoDtoResult
+                return _mapper.Map<TransacaoDtoResult>(result);
             }
             catch (Exception)
             {
@@ -69,11 +78,12 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<ICollection<Transacao>> GetAllTransacoes()
+        public async Task<ICollection<TransacaoDtoResult>> GetAllTransacoes()
         {
             try
             {
-                return await _repository.GetAll();
+                var result = await _repository.GetAll();
+                return _mapper.Map<ICollection<TransacaoDtoResult>>(result);
             }
             catch (Exception)
             {
@@ -93,9 +103,9 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<Transacao> UpdateTransacao(Transacao transacao)
+        public async Task<TransacaoDtoResult> UpdateTransacao(TransacaoDtoUpdate transacaoDtoUpdate)
         {
-            var existingEntity = await _repository.GetById(transacao.Id);
+            var existingEntity = await _repository.GetById(transacaoDtoUpdate.Id);
 
             if (existingEntity == null)
             {
@@ -105,10 +115,9 @@ namespace APIPix.Service.Services
             try
             {
                 // Atualize as propriedades conforme necessário
-                existingEntity.DestinoPagamentoId= transacao.DestinoPagamentoId;
-                existingEntity.OrigemPagamentoId = transacao.OrigemPagamentoId;
-
-                return await _repository.Update(existingEntity);
+                existingEntity.Horario = transacaoDtoUpdate.Horario;
+                var result = await _repository.Update(existingEntity);
+                return _mapper.Map<TransacaoDtoResult>(result);
             }
             catch (Exception)
             {

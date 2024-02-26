@@ -1,6 +1,7 @@
 ﻿using APIPix.Domain.Dtos.Beneficiario;
 using APIPix.Domain.Dtos.ChavePix;
 using APIPix.Domain.Dtos.Pagador;
+using APIPix.Domain.Dtos.Transacao;
 using APIPix.Domain.Entities;
 using AutoMapper;
 using System;
@@ -29,6 +30,11 @@ namespace APIPix.CrossCutting.AutoMapper
             CreateMap<Beneficiario, BeneficiarioDtoCreate>().ReverseMap();
             CreateMap<Beneficiario, BeneficiarioDtoResult>().ReverseMap();
             CreateMap<Beneficiario, BeneficiarioDtoUpdate>().ReverseMap();
+
+            //Transacao
+            CreateMap<Transacao, TransacaoDtoCreate>().ReverseMap();
+            CreateMap<Transacao, TransacaoDtoResult>().ReverseMap();
+            CreateMap<Transacao, TransacaoDtoUpdate>().ReverseMap();
         }
 
     }

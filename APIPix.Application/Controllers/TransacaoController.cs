@@ -1,4 +1,5 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Transacao;
+using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,9 +19,9 @@ namespace APIPix.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Transacao transacao)
+        public async Task<IActionResult> Post([FromBody] TransacaoDtoCreate transacaoDtoCreate)
         {
-            return Ok(await _service.AddTransacao(transacao));
+            return Ok(await _service.AddTransacao(transacaoDtoCreate));
         }
 
         [HttpGet]
@@ -36,7 +37,7 @@ namespace APIPix.Application.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateTransacao(Transacao transacao)
+        public async Task<IActionResult> UpdateTransacao(TransacaoDtoUpdate transacao)
         {
             return Ok(await _service.UpdateTransacao(transacao));
         }

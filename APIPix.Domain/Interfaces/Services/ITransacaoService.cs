@@ -1,4 +1,5 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Transacao;
+using APIPix.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace APIPix.Domain.Interfaces.Services
 {
     public interface ITransacaoService
     {
-        Task<Transacao> AddTransacao(Transacao transacao);
-        Task<ICollection<Transacao>> GetAllTransacoes();
+        Task<TransacaoDtoResult> AddTransacao(TransacaoDtoCreate transacaoDtoCreate);
+        Task<ICollection<TransacaoDtoResult>> GetAllTransacoes();
         Task<Transacao> GetTransacaoById(Guid id);
-        Task<Transacao> UpdateTransacao(Transacao transacao);
+        Task<TransacaoDtoResult> UpdateTransacao(TransacaoDtoUpdate transacao);
         Task<bool> DeleteTransacao(Guid id);
     }
 }
