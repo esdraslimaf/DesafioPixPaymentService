@@ -1,4 +1,5 @@
-﻿using APIPix.Domain.Dtos.Pagador;
+﻿using APIPix.Domain.Dtos.Beneficiario;
+using APIPix.Domain.Dtos.Pagador;
 using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
 using APIPix.Domain.Interfaces.Services;
@@ -34,7 +35,7 @@ namespace APIPix.Service.Services
             try
             {
                 var origem = _mapper.Map<Pagador>(await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId));               
-                var destino = await _destinoPagamentoService.GetDestinoPagamentoById(transacao.DestinoPagamentoId);
+                var destino = await _destinoPagamentoService.GetBeneficiarioById(transacao.DestinoPagamentoId);
 
 
 
@@ -46,7 +47,7 @@ namespace APIPix.Service.Services
                 _origemPagamentoService.UpdateOrigemPagamento(_mapper.Map<PagadorDtoUpdate>(origem));
 
 
-                _destinoPagamentoService.UpdateDestinoPagamento(destino);
+                _destinoPagamentoService.UpdateBeneficiario(_mapper.Map<BeneficiarioDtoUpdate>(destino));
 
                 return await _repository.Add(transacao);
             }

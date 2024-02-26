@@ -1,4 +1,5 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Beneficiario;
+using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,33 +19,33 @@ namespace APIPix.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Beneficiario recebedor)
+        public async Task<IActionResult> Post([FromBody] BeneficiarioDtoCreate recebedor)
         {
-            return Ok(await _service.AddDestinoPagamento(recebedor));
+            return Ok(await _service.AddBeneficiario(recebedor));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAllDestinosPagamentos());
+            return Ok(await _service.GetAllBeneficiarios());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            return Ok(await _service.GetDestinoPagamentoById(id));
+            return Ok(await _service.GetBeneficiarioById(id));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecebedor(Guid id)
         {
-            return Ok(await _service.DeleteDestinoPagamento(id));
+            return Ok(await _service.DeleteBeneficiario(id));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateRecebedor(Beneficiario recebedor)
+        public async Task<IActionResult> UpdateRecebedor(BeneficiarioDtoUpdate recebedor)
         {
-            return Ok(await _service.UpdateDestinoPagamento(recebedor));
+            return Ok(await _service.UpdateBeneficiario(recebedor));
         }
     }
 }

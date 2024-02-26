@@ -1,18 +1,17 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Beneficiario;
+using APIPix.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace APIPix.Domain.Interfaces.Services
 {
     public interface IBeneficiarioService
     {
-        Task<Beneficiario> AddDestinoPagamento(Beneficiario destinoPagamento);
-        Task<ICollection<Beneficiario>> GetAllDestinosPagamentos();
-        Task<Beneficiario> GetDestinoPagamentoById(Guid id);
-        Task<Beneficiario> UpdateDestinoPagamento(Beneficiario destinoPagamento);
-        Task<bool> DeleteDestinoPagamento(Guid id);
+        Task<Beneficiario> AddBeneficiario(BeneficiarioDtoCreate beneficiario);
+        Task<bool> DeleteBeneficiario(Guid id);
+        Task<ICollection<BeneficiarioDtoResult>> GetAllBeneficiarios();
+        Task<BeneficiarioDtoResult> GetBeneficiarioById(Guid id);
+        Task<Beneficiario> UpdateBeneficiario(BeneficiarioDtoUpdate beneficiarioDtoUpdate);
     }
 }

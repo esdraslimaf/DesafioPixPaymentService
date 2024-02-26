@@ -1,10 +1,10 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Beneficiario;
+using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
 using APIPix.Domain.Interfaces.Services;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace APIPix.Service.Services
@@ -12,20 +12,26 @@ namespace APIPix.Service.Services
     public class BeneficiarioService : IBeneficiarioService
     {
         private readonly IBaseRepository<Beneficiario> _repository;
-        public BeneficiarioService(IBaseRepository<Beneficiario> repository)
+        private readonly IMapper _mapper;
+
+        public BeneficiarioService(IBaseRepository<Beneficiario> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<Beneficiario> AddDestinoPagamento(Beneficiario destinoPagamento)
+        public async Task<Beneficiario> AddBeneficiario(BeneficiarioDtoCreate beneficiarioDtoCreate)
         {
-            if (destinoPagamento.Id == Guid.Empty)
+            var beneficiario = _mapper.Map<Beneficiario>(beneficiarioDtoCreate);
+
+            if (beneficiario.Id == Guid.Empty)
             {
-                destinoPagamento.Id = Guid.NewGuid();
+                beneficiario.Id = Guid.NewGuid();
             }
+
             try
-            { 
-                return await _repository.Add(destinoPagamento);
+            {
+                return await _repository.Add(beneficiario);
             }
             catch (Exception)
             {
@@ -33,7 +39,7 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<bool> DeleteDestinoPagamento(Guid id)
+        public async Task<bool> DeleteBeneficiario(Guid id)
         {
             try
             {
@@ -45,11 +51,12 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<ICollection<Beneficiario>> GetAllDestinosPagamentos()
+        public async Task<ICollection<BeneficiarioDtoResult>> GetAllBeneficiarios()
         {
             try
             {
-                return await _repository.GetAll();
+                var entities = await _repository.GetAll();
+                return _mapper.Map<ICollection<BeneficiarioDtoResult>>(entities);
             }
             catch (Exception)
             {
@@ -57,11 +64,11 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<Beneficiario> GetDestinoPagamentoById(Guid id)
+        public async Task<BeneficiarioDtoResult> GetBeneficiarioById(Guid id)
         {
             try
             {
-                return await _repository.GetById(id);
+                return _mapper.Map<BeneficiarioDtoResult>(await _repository.GetById(id));
             }
             catch (Exception)
             {
@@ -69,9 +76,9 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<Beneficiario> UpdateDestinoPagamento(Beneficiario destinoPagamento)
+        public async Task<Beneficiario> UpdateBeneficiario(BeneficiarioDtoUpdate beneficiarioDtoUpdate)
         {
-            var existingEntity = await _repository.GetById(destinoPagamento.Id);
+            var existingEntity = await _repository.GetById(beneficiarioDtoUpdate.Id);
 
             if (existingEntity == null)
             {
@@ -80,7 +87,8 @@ namespace APIPix.Service.Services
 
             try
             {
-                existingEntity.Name = destinoPagamento.Name;
+                existingEntity.Name = beneficiarioDtoUpdate.Name;
+                existingEntity.Quantia = beneficiarioDtoUpdate.Quantia;
                 return await _repository.Update(existingEntity);
             }
             catch (Exception)
@@ -89,4 +97,4 @@ namespace APIPix.Service.Services
             }
         }
     }
-    }
+}
