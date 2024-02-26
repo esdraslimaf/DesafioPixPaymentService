@@ -1,6 +1,8 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Pagador;
+using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
 using APIPix.Domain.Interfaces.Services;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +14,18 @@ namespace APIPix.Service.Services
     public class OrigemPagamentoService : IOrigemPagamentoService
     {
         private readonly IBaseRepository<OrigemPagamento> _repository;
-        public OrigemPagamentoService(IBaseRepository<OrigemPagamento> repository)
+        private readonly IMapper _mapper;
+        public OrigemPagamentoService(IBaseRepository<OrigemPagamento> repository, IMapper mapper)
         {
               _repository = repository;
+            _mapper = mapper;
         }
 
 
-        public async Task<OrigemPagamento> AddOrigemPagamento(OrigemPagamento origemPagamento)
+        public async Task<OrigemPagamento> AddOrigemPagamento(PagadorDtoCreate pagadorDtoCreate)          
         {
+            var origemPagamento = _mapper.Map<OrigemPagamento>(pagadorDtoCreate);
+
             if (origemPagamento.Id == Guid.Empty) { origemPagamento.Id = Guid.NewGuid(); }
             try
             {
@@ -44,11 +50,12 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<ICollection<OrigemPagamento>> GetAllOrigensPagamentos()
+        public async Task<ICollection<PagadorDtoResult>> GetAllOrigensPagamentos()
         {
             try
             {
-                return await _repository.GetAll();
+                var entities = await _repository.GetAll();
+                return _mapper.Map<ICollection<PagadorDtoResult>>(entities);
             }
             catch (Exception)
             {
@@ -56,11 +63,11 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<OrigemPagamento> GetOrigemPagamentoById(Guid id)
+        public async Task<PagadorDtoResult> GetOrigemPagamentoById(Guid id)
         {
             try
             {
-                return await _repository.GetById(id);
+                return _mapper.Map<PagadorDtoResult>(await _repository.GetById(id));
             }
             catch (Exception)
             {
@@ -68,9 +75,10 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<OrigemPagamento> UpdateOrigemPagamento(OrigemPagamento origemPagamento)
+        public async Task<OrigemPagamento> UpdateOrigemPagamento(PagadorDtoUpdate PagadorDtoUpdate)
         {
-            var existingEntity = await _repository.GetById(origemPagamento.Id);
+
+            var existingEntity = await _repository.GetById(PagadorDtoUpdate.Id);
 
             if (existingEntity == null)
             {
@@ -79,7 +87,8 @@ namespace APIPix.Service.Services
 
             try
             {
-                existingEntity.Name = origemPagamento.Name;
+                existingEntity.Name = PagadorDtoUpdate.Name;
+                existingEntity.Quantia = PagadorDtoUpdate.Quantia;
                return await _repository.Update(existingEntity);
             }
             catch (Exception)

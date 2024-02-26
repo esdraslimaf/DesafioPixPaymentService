@@ -1,4 +1,5 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Pagador;
+using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
 using APIPix.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace APIPix.Application.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PagadorController:ControllerBase
+    public class PagadorController : ControllerBase
     {
         private readonly IOrigemPagamentoService _service;
         public PagadorController(IOrigemPagamentoService service)
@@ -17,10 +18,14 @@ namespace APIPix.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OrigemPagamento pagador)
+        public async Task<IActionResult> Post([FromBody] PagadorDtoCreate pagador)
         {
-            
-           return Ok(await _service.AddOrigemPagamento(pagador));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+
+            }
+            return Ok(await _service.AddOrigemPagamento(pagador));
         }
 
         [HttpGet]
@@ -42,9 +47,9 @@ namespace APIPix.Application.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePagador(OrigemPagamento pagador)
+        public async Task<IActionResult> UpdatePagador(PagadorDtoUpdate pagadorDtoUpdate)
         {
-            return Ok(await _service.UpdateOrigemPagamento(pagador));
+            return Ok(await _service.UpdateOrigemPagamento(pagadorDtoUpdate));
         }
 
     }

@@ -18,7 +18,7 @@ namespace APIPix.CrossCutting.DependencyInjection
         {
             serviceCollection.AddTransient<IChaveService, ChaveService>();
             serviceCollection.AddTransient<IOrigemPagamentoService, OrigemPagamentoService>();
-            serviceCollection.AddTransient<IDestinoPagamentoService, DestinoPagamentoService>();
+            serviceCollection.AddTransient<IDestinoPagamentoService, DestigoPagamentoService>();
             serviceCollection.AddTransient<ITransacaoService, TransacaoService>();
             
         }

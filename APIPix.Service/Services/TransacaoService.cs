@@ -1,8 +1,11 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Pagador;
+using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
 using APIPix.Domain.Interfaces.Services;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace APIPix.Service.Services
@@ -12,12 +15,14 @@ namespace APIPix.Service.Services
         private readonly IBaseRepository<Transacao> _repository;
         private readonly IDestinoPagamentoService _destinoPagamentoService;
         private readonly IOrigemPagamentoService _origemPagamentoService;
+        private readonly IMapper _mapper;
 
-        public TransacaoService(IBaseRepository<Transacao> repository, IDestinoPagamentoService destinoPagamentoService, IOrigemPagamentoService origemPagamentoService)
+        public TransacaoService(IBaseRepository<Transacao> repository, IDestinoPagamentoService destinoPagamentoService, IOrigemPagamentoService origemPagamentoService, IMapper mapper)
         {
             _repository = repository;
             _destinoPagamentoService = destinoPagamentoService;
             _origemPagamentoService = origemPagamentoService;
+            _mapper = mapper;
         }
 
         public async Task<Transacao> AddTransacao(Transacao transacao)
@@ -28,13 +33,19 @@ namespace APIPix.Service.Services
             }
             try
             {
-                var origem = await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId);
+                var origem = _mapper.Map<OrigemPagamento>(await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId));               
                 var destino = await _destinoPagamentoService.GetDestinoPagamentoById(transacao.DestinoPagamentoId);
+
+
 
                 origem.Quantia -= transacao.Valor;
                 destino.Quantia += transacao.Valor;
 
-                _origemPagamentoService.UpdateOrigemPagamento(origem);
+                
+
+                _origemPagamentoService.UpdateOrigemPagamento(_mapper.Map<PagadorDtoUpdate>(origem));
+
+
                 _destinoPagamentoService.UpdateDestinoPagamento(destino);
 
                 return await _repository.Add(transacao);

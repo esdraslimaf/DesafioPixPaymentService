@@ -1,4 +1,5 @@
-﻿using APIPix.Domain.Entities;
+﻿using APIPix.Domain.Dtos.Pagador;
+using APIPix.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace APIPix.Domain.Interfaces.Services
 {
     public interface IOrigemPagamentoService
     {
-        Task<OrigemPagamento> AddOrigemPagamento(OrigemPagamento origemPagamento);
+        Task<OrigemPagamento> AddOrigemPagamento(PagadorDtoCreate origemPagamento);
         Task<bool> DeleteOrigemPagamento(Guid id);
-        Task<ICollection<OrigemPagamento>> GetAllOrigensPagamentos();
-        Task<OrigemPagamento> GetOrigemPagamentoById(Guid id);
-        Task<OrigemPagamento> UpdateOrigemPagamento(OrigemPagamento origemPagamento);
+        Task<ICollection<PagadorDtoResult>> GetAllOrigensPagamentos();
+        Task<PagadorDtoResult> GetOrigemPagamentoById(Guid id);
+        Task<OrigemPagamento> UpdateOrigemPagamento(PagadorDtoUpdate PagadorDtoUpdate);
     }
 }
