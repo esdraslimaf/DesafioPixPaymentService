@@ -1,8 +1,8 @@
-﻿using APIPix.Domain.Dtos.Beneficiario;
-using APIPix.Domain.Dtos.Pagador;
+﻿using APIPix.Domain.Dtos.Cliente;
 using APIPix.Domain.Dtos.Transacao;
 using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
+using APIPix.Domain.Interfaces.Repository;
 using APIPix.Domain.Interfaces.Services;
 using AutoMapper;
 using System;
@@ -14,16 +14,14 @@ namespace APIPix.Service.Services
 {
     public class TransacaoService : ITransacaoService
     {
-        private readonly IBaseRepository<Transacao> _repository;
-        private readonly IBeneficiarioService _destinoPagamentoService;
-        private readonly IPagadorService _origemPagamentoService;
+        private readonly ITransacaoRepository _repository;
+        private readonly IClienteService _clienteService;
         private readonly IMapper _mapper;
 
-        public TransacaoService(IBaseRepository<Transacao> repository, IBeneficiarioService destinoPagamentoService, IPagadorService origemPagamentoService, IMapper mapper)
+        public TransacaoService(ITransacaoRepository repository, IClienteService clienteService, IMapper mapper)
         {
             _repository = repository;
-            _destinoPagamentoService = destinoPagamentoService;
-            _origemPagamentoService = origemPagamentoService;
+            _clienteService = clienteService;
             _mapper = mapper;
         }
 
@@ -39,20 +37,20 @@ namespace APIPix.Service.Services
             {
                 transacao.Horario = DateTime.UtcNow;
 
-                // Obtém o pagador e atualiza sua quantia subtraindo o valor da transação.
-                var pagador = await _origemPagamentoService.GetOrigemPagamentoById(transacao.OrigemPagamentoId);
-                pagador.Quantia -= transacao.Valor;
-                var entidadePagador = _mapper.Map<Pagador>(pagador);
+                // Obtém o cliente pagador por meio da chave pix e atualiza sua quantia adicionando o valor da transação.             
+                                                        
+                var pagador = await _clienteService.GetClienteById(transacao.PagadorId);
+                pagador.Saldo -= transacao.Valor;
+                var entidadePagador = _mapper.Map<Cliente>(pagador);
 
-                // Obtém o beneficiário e atualiza sua quantia adicionando o valor da transação.
-                var beneficiario = await _destinoPagamentoService.GetBeneficiarioById(transacao.DestinoPagamentoId);
-                beneficiario.Quantia += transacao.Valor;
-                var entidadeBeneficiario = _mapper.Map<Beneficiario>(beneficiario);
+                // Obtém o cliente beneficiário e atualiza sua quantia adicionando o valor da transação.
+                var beneficiario = await _clienteService.GetClienteById(transacao.BeneficiarioId);
+                beneficiario.Saldo += transacao.Valor;
+                var entidadeBeneficiario = _mapper.Map<Cliente>(beneficiario);
 
                 // Atualiza as informações do pagador e beneficiário nos respectivos serviços.
-                await _origemPagamentoService.UpdateOrigemPagamento(_mapper.Map<PagadorDtoUpdate>(entidadePagador));
-                await _destinoPagamentoService.UpdateBeneficiario(_mapper.Map<BeneficiarioDtoUpdate>(entidadeBeneficiario));
-
+                await _clienteService.UpdateCliente(_mapper.Map<ClienteDtoUpdate>(entidadePagador));
+                await _clienteService.UpdateCliente(_mapper.Map<ClienteDtoUpdate>(entidadeBeneficiario));
 
                 //Adiciona a transação no banco de dados
                 var result = await _repository.Add(transacao);
@@ -123,6 +121,11 @@ namespace APIPix.Service.Services
             {
                 throw;
             }
+        }
+
+        public async Task<ICollection<TransacaoDtoResult>> GetTransacaoByPixId(Guid id)
+        {
+            return await _repository.GetTransacoesByPixId(id);
         }
     }
 }

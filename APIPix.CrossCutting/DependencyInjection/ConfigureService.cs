@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using APIPix.Domain.Interfaces.Repository;
 
 namespace APIPix.CrossCutting.DependencyInjection
 {
@@ -17,10 +18,12 @@ namespace APIPix.CrossCutting.DependencyInjection
         public static void ConfiguracaoDependenciaService(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IChaveService, ChaveService>();
-            serviceCollection.AddTransient<IPagadorService, PagadorService>();
-            serviceCollection.AddTransient<IBeneficiarioService, BeneficiarioService>();
+            serviceCollection.AddTransient<IClienteService, ClienteService>();
             serviceCollection.AddTransient<ITransacaoService, TransacaoService>();
             
+            
+
+
         }
     }
 }

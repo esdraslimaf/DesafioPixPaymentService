@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 
 namespace APIPix.Data.Mappings
 {
-    public class DestinoPagamentoMapping : IEntityTypeConfiguration<Beneficiario>
+    public class ClienteMapping : IEntityTypeConfiguration<Cliente>
     {
-        public void Configure(EntityTypeBuilder<Beneficiario> builder)
+        public void Configure(EntityTypeBuilder<Cliente> builder)
         {
+            builder.HasKey(p => p.Id);
+
             builder.HasOne(o => o.ChavePix)
-           .WithOne(cp=>cp.Recebedor)
-           .HasForeignKey<Beneficiario>(c=>c.ChavePixId);
+            .WithOne(cp => cp.Cliente)
+            .HasForeignKey<Cliente>(o => o.ChavePixId);
+
 
 
         }

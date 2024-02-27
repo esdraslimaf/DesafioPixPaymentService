@@ -36,7 +36,7 @@ namespace APIPix.Data.Migrations
                     b.ToTable("Chaves");
                 });
 
-            modelBuilder.Entity("APIPix.Domain.Entities.DestinoPagamento", b =>
+            modelBuilder.Entity("APIPix.Domain.Entities.Cliente", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace APIPix.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Quantia")
+                    b.Property<double>("Saldo")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -57,31 +57,7 @@ namespace APIPix.Data.Migrations
                     b.HasIndex("ChavePixId")
                         .IsUnique();
 
-                    b.ToTable("DestinosPagamentos");
-                });
-
-            modelBuilder.Entity("APIPix.Domain.Entities.OrigemPagamento", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ChavePixId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Quantia")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChavePixId")
-                        .IsUnique();
-
-                    b.ToTable("OrigensPagamentos");
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("APIPix.Domain.Entities.Transacao", b =>
@@ -90,13 +66,13 @@ namespace APIPix.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DestinoPagamentoId")
+                    b.Property<Guid>("BeneficiarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Horario")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("OrigemPagamentoId")
+                    b.Property<Guid>("PagadorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Valor")
@@ -104,29 +80,18 @@ namespace APIPix.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DestinoPagamentoId");
+                    b.HasIndex("BeneficiarioId");
 
-                    b.HasIndex("OrigemPagamentoId");
+                    b.HasIndex("PagadorId");
 
                     b.ToTable("Transacoes");
                 });
 
-            modelBuilder.Entity("APIPix.Domain.Entities.DestinoPagamento", b =>
+            modelBuilder.Entity("APIPix.Domain.Entities.Cliente", b =>
                 {
                     b.HasOne("APIPix.Domain.Entities.ChavePix", "ChavePix")
-                        .WithOne("Recebedor")
-                        .HasForeignKey("APIPix.Domain.Entities.DestinoPagamento", "ChavePixId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ChavePix");
-                });
-
-            modelBuilder.Entity("APIPix.Domain.Entities.OrigemPagamento", b =>
-                {
-                    b.HasOne("APIPix.Domain.Entities.ChavePix", "ChavePix")
-                        .WithOne("Pagador")
-                        .HasForeignKey("APIPix.Domain.Entities.OrigemPagamento", "ChavePixId")
+                        .WithOne("Cliente")
+                        .HasForeignKey("APIPix.Domain.Entities.Cliente", "ChavePixId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -135,38 +100,26 @@ namespace APIPix.Data.Migrations
 
             modelBuilder.Entity("APIPix.Domain.Entities.Transacao", b =>
                 {
-                    b.HasOne("APIPix.Domain.Entities.DestinoPagamento", "DestinoPagamento")
-                        .WithMany("Transacoes")
-                        .HasForeignKey("DestinoPagamentoId")
+                    b.HasOne("APIPix.Domain.Entities.Cliente", "Beneficiario")
+                        .WithMany()
+                        .HasForeignKey("BeneficiarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIPix.Domain.Entities.OrigemPagamento", "OrigemPagamento")
-                        .WithMany("Transacoes")
-                        .HasForeignKey("OrigemPagamentoId")
+                    b.HasOne("APIPix.Domain.Entities.Cliente", "Pagador")
+                        .WithMany()
+                        .HasForeignKey("PagadorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DestinoPagamento");
+                    b.Navigation("Beneficiario");
 
-                    b.Navigation("OrigemPagamento");
+                    b.Navigation("Pagador");
                 });
 
             modelBuilder.Entity("APIPix.Domain.Entities.ChavePix", b =>
                 {
-                    b.Navigation("Pagador");
-
-                    b.Navigation("Recebedor");
-                });
-
-            modelBuilder.Entity("APIPix.Domain.Entities.DestinoPagamento", b =>
-                {
-                    b.Navigation("Transacoes");
-                });
-
-            modelBuilder.Entity("APIPix.Domain.Entities.OrigemPagamento", b =>
-                {
-                    b.Navigation("Transacoes");
+                    b.Navigation("Cliente");
                 });
 #pragma warning restore 612, 618
         }

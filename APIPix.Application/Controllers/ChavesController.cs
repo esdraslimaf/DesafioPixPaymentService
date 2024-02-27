@@ -16,14 +16,9 @@ namespace APIPix.Application.Controllers
     {
          private readonly IChaveService _service;
 
-        private readonly MyContext _context;
-      
-
-        public ChavesController(MyContext context, IChaveService service)
+        public ChavesController(IChaveService service)
         {
-            _context = context;
-            _service = service;
-          
+            _service = service;     
         }
 
         [HttpPost]
@@ -55,7 +50,16 @@ namespace APIPix.Application.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            return Ok(await _service.GetChavesById(id));
+            var result = await _service.GetChavesById(id);
+
+            if (result!=null)
+            {             
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(); // Retorna um código 404 caso não encontre a transação
+            }
         }
 
         [HttpPut]

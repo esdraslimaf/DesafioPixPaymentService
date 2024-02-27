@@ -10,8 +10,8 @@ namespace APIPix.Domain.Dtos.Transacao
     {
         public Guid Id { get; set; }
         public DateTime Horario { get; set; }
-        public Guid OrigemPagamentoId { get; set; }
-        public Guid DestinoPagamentoId { get; set; }
+        public Guid PagadorId { get; set; }
+        public Guid BeneficiarioId { get; set; }
         public double Valor { get; set; }
         
     }

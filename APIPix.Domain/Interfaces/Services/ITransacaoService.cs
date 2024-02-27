@@ -15,5 +15,6 @@ namespace APIPix.Domain.Interfaces.Services
         Task<Transacao> GetTransacaoById(Guid id);
         Task<TransacaoDtoResult> UpdateTransacao(TransacaoDtoUpdate transacao);
         Task<bool> DeleteTransacao(Guid id);
+        Task<ICollection<TransacaoDtoResult>> GetTransacaoByPixId(Guid id);
     }
 }

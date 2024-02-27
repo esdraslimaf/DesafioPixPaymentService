@@ -3,6 +3,7 @@ using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace APIPix.Application.Controllers
@@ -36,6 +37,12 @@ namespace APIPix.Application.Controllers
             return Ok(await _service.GetTransacaoById(id));
         }
 
+        [HttpGet("BuscarTransacoesPorChavePix")]
+        public async Task<IActionResult> GetByIdPix(Guid id)
+        {
+            return Ok(await _service.GetTransacaoByPixId(id));
+        }
+ 
         [HttpPut]
         public async Task<IActionResult> UpdateTransacao(TransacaoDtoUpdate transacao)
         {

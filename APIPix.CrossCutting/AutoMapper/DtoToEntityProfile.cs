@@ -1,6 +1,5 @@
-﻿using APIPix.Domain.Dtos.Beneficiario;
-using APIPix.Domain.Dtos.ChavePix;
-using APIPix.Domain.Dtos.Pagador;
+﻿using APIPix.Domain.Dtos.ChavePix;
+using APIPix.Domain.Dtos.Cliente;
 using APIPix.Domain.Dtos.Transacao;
 using APIPix.Domain.Entities;
 using AutoMapper;
@@ -20,17 +19,12 @@ namespace APIPix.CrossCutting.AutoMapper
             CreateMap<ChavePix, ChavePixDtoCreate>().ReverseMap();
             CreateMap<ChavePix, ChavePixDtoResult>().ReverseMap();
             CreateMap<ChavePix, ChavePixDtoUpdate>().ReverseMap();
-            
-            //Pagador
-            CreateMap<Pagador, PagadorDtoCreate>().ReverseMap();
-            CreateMap<Pagador, PagadorDtoResult>().ReverseMap();
-            CreateMap<Pagador, PagadorDtoUpdate>().ReverseMap();
 
-            //Beneficiario
-            CreateMap<Beneficiario, BeneficiarioDtoCreate>().ReverseMap();
-            CreateMap<Beneficiario, BeneficiarioDtoResult>().ReverseMap();
-            CreateMap<Beneficiario, BeneficiarioDtoUpdate>().ReverseMap();
-
+            // Cliente
+            CreateMap<Cliente, ClienteDtoCreate>().ReverseMap();
+            CreateMap<Cliente, ClienteDtoResult>().ReverseMap();
+            CreateMap<Cliente, ClienteDtoUpdate>().ReverseMap();
+       
             //Transacao
             CreateMap<Transacao, TransacaoDtoCreate>().ReverseMap();
             CreateMap<Transacao, TransacaoDtoResult>().ReverseMap();

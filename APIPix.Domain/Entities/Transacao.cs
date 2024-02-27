@@ -9,10 +9,10 @@ namespace APIPix.Domain.Entities
     public class Transacao:BaseEntity
     {
         public DateTime Horario { get; set; }
-        public Pagador? OrigemPagamento { get; set; }
-        public Guid OrigemPagamentoId { get; set; }
-        public Beneficiario? DestinoPagamento { get; set; }
-        public Guid DestinoPagamentoId { get; set; }
+        public Cliente? Pagador { get; set; }
+        public Guid PagadorId { get; set; }
+        public Cliente? Beneficiario { get; set; }
+        public Guid BeneficiarioId { get; set; }
         public double Valor { get; set; }
 
     }

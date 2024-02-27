@@ -1,4 +1,4 @@
-﻿using APIPix.Domain.Dtos.Beneficiario;
+﻿using APIPix.Domain.Dtos.Cliente;
 using APIPix.Domain.Entities;
 using APIPix.Domain.Interfaces;
 using APIPix.Domain.Interfaces.Services;
@@ -9,29 +9,29 @@ using System.Threading.Tasks;
 
 namespace APIPix.Service.Services
 {
-    public class BeneficiarioService : IBeneficiarioService
+    public class ClienteService : IClienteService
     {
-        private readonly IBaseRepository<Beneficiario> _repository;
+        private readonly IBaseRepository<Cliente> _repository;
         private readonly IMapper _mapper;
 
-        public BeneficiarioService(IBaseRepository<Beneficiario> repository, IMapper mapper)
+        public ClienteService(IBaseRepository<Cliente> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<Beneficiario> AddBeneficiario(BeneficiarioDtoCreate beneficiarioDtoCreate)
+        public async Task<Cliente> AddCliente(ClienteDtoCreate clienteDtoCreate)
         {
-            var beneficiario = _mapper.Map<Beneficiario>(beneficiarioDtoCreate);
+            var cliente = _mapper.Map<Cliente>(clienteDtoCreate);
 
-            if (beneficiario.Id == Guid.Empty)
+            if (cliente.Id == Guid.Empty)
             {
-                beneficiario.Id = Guid.NewGuid();
+                cliente.Id = Guid.NewGuid();
             }
 
             try
             {
-                return await _repository.Add(beneficiario);
+                return await _repository.Add(cliente);
             }
             catch (Exception)
             {
@@ -39,7 +39,7 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<bool> DeleteBeneficiario(Guid id)
+        public async Task<bool> DeleteCliente(Guid id)
         {
             try
             {
@@ -51,12 +51,12 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<ICollection<BeneficiarioDtoResult>> GetAllBeneficiarios()
+        public async Task<ICollection<ClienteDtoResult>> GetAllClientes()
         {
             try
             {
                 var entities = await _repository.GetAll();
-                return _mapper.Map<ICollection<BeneficiarioDtoResult>>(entities);
+                return _mapper.Map<ICollection<ClienteDtoResult>>(entities);
             }
             catch (Exception)
             {
@@ -64,11 +64,11 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<BeneficiarioDtoResult> GetBeneficiarioById(Guid id)
+        public async Task<ClienteDtoResult> GetClienteById(Guid id)
         {
             try
             {
-                return _mapper.Map<BeneficiarioDtoResult>(await _repository.GetById(id));
+                return _mapper.Map<ClienteDtoResult>(await _repository.GetById(id));
             }
             catch (Exception)
             {
@@ -76,9 +76,9 @@ namespace APIPix.Service.Services
             }
         }
 
-        public async Task<Beneficiario> UpdateBeneficiario(BeneficiarioDtoUpdate beneficiarioDtoUpdate)
+        public async Task<Cliente> UpdateCliente(ClienteDtoUpdate clienteDtoUpdate)
         {
-            var existingEntity = await _repository.GetById(beneficiarioDtoUpdate.Id);
+            var existingEntity = await _repository.GetById(clienteDtoUpdate.Id);
 
             if (existingEntity == null)
             {
@@ -87,8 +87,8 @@ namespace APIPix.Service.Services
 
             try
             {
-                existingEntity.Name = beneficiarioDtoUpdate.Name;
-                existingEntity.Quantia = beneficiarioDtoUpdate.Quantia;
+                existingEntity.Name = clienteDtoUpdate.Name;
+                existingEntity.Saldo = clienteDtoUpdate.Saldo;
                 return await _repository.Update(existingEntity);
             }
             catch (Exception)
