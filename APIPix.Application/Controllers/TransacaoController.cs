@@ -37,7 +37,7 @@ namespace APIPix.Application.Controllers
             return Ok(await _service.GetTransacaoById(id));
         }
 
-        [HttpGet("BuscarTransacoesPorChavePix")]
+        [HttpGet("BuscarTransacoesPorChavePix/{id}")]
         public async Task<IActionResult> GetByIdPix(Guid id)
         {
             return Ok(await _service.GetTransacaoByPixId(id));
