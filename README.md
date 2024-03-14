@@ -13,4 +13,9 @@ Sua API deve:
 - Testes de Unidade.
 
 
+_____________________________________________________________________
+
+
+NOTA: O DESENHO ABAIXO NESTE README É DE OUTRO PROJETO, SALVEI AQUI TEMPORÁRIAMENTE
+
 ![image](https://github.com/esdraslimaf/DesafioPixPaymentService/assets/101669187/ad19d4c8-8686-4f4f-9363-4e8501e4328b)
